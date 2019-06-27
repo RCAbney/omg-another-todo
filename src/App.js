@@ -69,7 +69,7 @@ function App() {
     <Container>
       <Row>
         <Col>
-          <h1>TODO App</h1>
+          <h1>OMG Another TODO App</h1>
           <hr />
           <Form onSubmit={handleNewTodo}>
             <Form.Group>
