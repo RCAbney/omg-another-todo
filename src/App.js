@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Todo from "./Todo";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -9,7 +9,25 @@ import ListGroup from "react-bootstrap/ListGroup";
 
 function App() {
   const [todos, setTodos] = useState([]);
-  const [inputValue, setInputValue] = React.useState("");
+  const [inputValue, setInputValue] = useState("");
+  const [listMotivator, setListMotivator] = useState("");
+
+  useEffect(() => {
+    todos.length && checkIfAllDone(todos, "done")
+      ? setListMotivator("OMFG YOU'RE ALL DONE!")
+      : todos.length
+      ? setListMotivator("Tasks that need completed")
+      : setListMotivator("Let's add some stuff to do.");
+  }, [todos]);
+
+  const checkIfAllDone = (array, property) => {
+    for (let i = 0; i < array.length; i++) {
+      if (!array[i].done) {
+        return false;
+      }
+    }
+    return true;
+  };
 
   const handleChange = e => {
     setInputValue(e.target.value);
@@ -64,15 +82,17 @@ function App() {
             </Button>
           </Form>
           <hr />
-          {todos[0] ? (
-            <p>Tasks that need completed</p>
-          ) : (
-            <p>Let's add some tasks and get busy!</p>
-          )}
+          <p>{listMotivator}</p>
           <ListGroup as="ul">
             {todos &&
               todos.map((todo, i) => (
-                <Todo todo={todo} id={i} key={todo.task + i} handleRemove={handleRemove} handleDone={handleDone} />
+                <Todo
+                  todo={todo}
+                  id={i}
+                  key={todo.task + i}
+                  handleRemove={handleRemove}
+                  handleDone={handleDone}
+                />
               ))}
           </ListGroup>
         </Col>
