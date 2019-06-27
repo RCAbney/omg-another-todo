@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(JSON.parse(localStorage.getItem('localTodos')) || []);
   const [inputValue, setInputValue] = useState("");
   const [listMotivator, setListMotivator] = useState("");
 
@@ -18,6 +18,9 @@ function App() {
       : todos.length
       ? setListMotivator("Tasks that need completed")
       : setListMotivator("Let's add some stuff to do.");
+
+    localStorage.setItem('localTodos', JSON.stringify(todos));
+
   }, [todos]);
 
   const checkIfAllDone = (array, property) => {
